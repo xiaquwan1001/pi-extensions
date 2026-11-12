@@ -1,0 +1,7 @@
+[Unit]
+Description=Pi 池内模型速度探针（写 ~/.pi/agent/extensions/model-speed/last-probe.json）
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/bash %h/.pi/agent/extensions/model-speed/probe.sh --sizes "2000 150000" --budget 150
+TimeoutStartSec=600

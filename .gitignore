@@ -1,0 +1,6 @@
+node_modules/
+*.log
+last-probe.json
+speed-log.jsonl
+state.json
+*.bak-*
