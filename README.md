@@ -13,9 +13,9 @@ fabric 稳定性补丁、Firefox 浏览器说明注入。全部在真实排障�
 | `model-speed.ts` | 会话启动提示过慢档位；会话内实测 TTFT/TPOT，连续 3 轮偏慢就在池内自动换到更快的型号；命令 `/speed`、`/speed-stats` |
 | `model-speed/probe.sh` + `_probe_one.py` | 池内各型号 TTFT 探针：**每个型号独立子进程独立超时**，测完一个立刻落盘（慢的不会拖死快的） |
 | `model-speed/pi-model-speed-probe.{service,timer}` | systemd --user 定时器，每小时刷新 `last-probe.json` |
-| `sudo/sudo-ttl.ts` | `/sudo-ttl [1h\|2h30m\|session\|default]`：查看/修改 `sudo_exec` 凭据缓存有效期 |
-| `sudo/sudo-skip-confirm-patch.ts` | 凭据缓存有效时不再逐条弹授权确认窗（等价于「一次授权，会话内免打扰」） |
-| `sudo/sudo-credential-verify-patch.ts` | 命令非零退出时用**密码**而非 sudo 票据判定凭据有效性，避免误清缓存 |
+| `sudo/sudo-ttl.ts` | `/sudo-ttl [1h\|2h30m\|session\|default]`：查看/修改 `sudo_exec` 凭据缓存有效期（上游 `/sudo` 只有状态与 forget，此插件仍需要） |
+
+> 原先的 `sudo-skip-confirm-patch.ts` / `sudo-credential-verify-patch.ts` 已删除：`@pi-archimedes/sudo` 2.14.0 起原生提供 `archimedes.sudo.confirmWhenCached=false` 与命令失败后的密码探测（对应上游 PR #162、#158）。
 | `fabric/exit-diagnostics-patch.ts` | 让被信号杀死的子代理留下真实死因，而不是一句 `exit code null` |
 | `fabric/fabric-atomic-write-hardening.ts` | pi-fabric 状态落盘失败（如 `EDQUOT`）降级为警告，不再 uncaughtException 带走主进程 |
 | `fabric/fabric-recovery-watchdog-patch.ts` | 放宽 pi-fabric 恢复看门狗硬编码 60s，慢网关下不再误杀仍在重试的子代理 |
